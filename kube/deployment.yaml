@@ -14,9 +14,26 @@ spec:
       labels:
         app: simpleapp-webapp
     spec:
+      initContainers:
+        - name: install
+          image: busybox:1.28
+          command:
+            - wget
+            - "-O"
+            - "/work-dir/index.html"
+            - http://info.cern.ch
+          volumeMounts:
+            - name: workdir
+              mountPath: "/work-dir"
       containers:
-      - name: simpleapp-container
-        image: ajinkyap009/cloudethix_initcontainer_ajinkya:v1
-        ports:
-        - containerPort: 80
-          name: http
+        - name: simpleapp-container
+          image: ajinkyap009/cloudethix_initcontainer_ajinkya:v1
+          ports:
+            - containerPort: 80
+              name: http
+          volumeMounts:
+            - name: workdir
+              mountPath: /usr/share/nginx/html/
+      volumes:
+        - name: workdir
+          emptyDir: {}
