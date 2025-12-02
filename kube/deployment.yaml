@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simpleapp-webapp-deployment
+  labels:
+    app: simpleapp-webapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: simpleapp-webapp
+  template:
+    metadata:
+      labels:
+        app: simpleapp-webapp
+    spec:
+      containers:
+      - name: simpleapp-container
+        image: ajinkyap009/cloudethix_initcontainer_ajinkya:v1
+        ports:
+        - containerPort: 80
+          name: http
